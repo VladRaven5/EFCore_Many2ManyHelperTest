@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace EFCore_Many2ManyHelperTest
 {
@@ -6,7 +7,12 @@ namespace EFCore_Many2ManyHelperTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using (MainContext context = new MainContext())
+            {
+                context.Database.Migrate();
+            }
+            Console.WriteLine("Done.");
+            Console.ReadKey();
         }
     }
 }
