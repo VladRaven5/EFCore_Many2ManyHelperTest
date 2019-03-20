@@ -15,20 +15,18 @@ namespace EFCore_Many2ManyHelperTest.Extensions
             var entity2Type = context.Model.FindRuntimeEntityType(entity2.GetType());
 
             var entity1Entry = context.Entry(entity1);
+
             foreach (var collection in entity1Entry.Collections)
             {
-                object firstItem = null;
-                foreach(var item in collection.CurrentValue)
-                {
-                    firstItem = item;
-                    break;
-                }
-
+                object firstItem = collection.CurrentValue
+                    .Cast<object>()
+                    .FirstOrDefault();
+                
                 if (firstItem is null)
                 {
                     //if many-to-many link collection is empty
                     //need to do smth with this
-                    return false;
+                    continue;
                 }
                 
                 var linkEntityType = context.Model.FindRuntimeEntityType(firstItem.GetType());
